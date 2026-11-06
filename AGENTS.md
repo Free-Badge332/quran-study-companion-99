@@ -27,3 +27,4 @@
 - Old Android WebViews (<Chromium 111) drop oklch(); scripts/oklch-fallbacks.py regenerates an rgb fallback block at the end of src/styles.css — rerun after changing colour tokens so pop-ups never render transparent.
 - The Android build (vite.mobile.config.ts) targets es2019/chrome79 and loads mobile/polyfills.ts first, so older Android WebViews don't crash on newer JS built-ins used by pop-ups.
 - The Capacitor build defines __MOBILE_SHELL__ so the root route skips its <html>/<body> shell inside mobile/index.html's #root; nesting it makes React's event handling loop forever and freezes every tap.
+- Android-native polish lives in one block in src/styles.css scoped to html.native-android (set by mobile/native.ts); presentation only, so the web build stays visually unchanged.
