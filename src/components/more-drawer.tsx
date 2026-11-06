@@ -63,7 +63,7 @@ export function MoreDrawer() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label={tr("navMore")} className="rounded-full text-foreground hover:bg-secondary">
+        <Button variant="ghost" size="icon" aria-label={tr("navMore")} className="drawer-trigger rounded-full text-foreground hover:bg-secondary">
           <Menu size={22} />
         </Button>
       </SheetTrigger>
@@ -76,7 +76,7 @@ export function MoreDrawer() {
           </div>
           <SheetClose className="drawer-close" aria-label="Close menu"><X size={20} /></SheetClose>
         </header>
-        <nav aria-label={tr("navMore")} className="popup-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 pb-3 pt-1">
+        <nav aria-label={tr("navMore")} className="drawer-nav popup-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 pb-3 pt-1">
           {GROUPS.map((g) => (
             <section key={g.title} className="pt-3 first:pt-1">
               <h2 className="drawer-section-title">{tr(g.title)}</h2>

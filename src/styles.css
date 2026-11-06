@@ -588,8 +588,41 @@ html.native body { padding-inline: 0; }
 .native-android .app-bottom-nav a[aria-current="page"] > span:last-child { font-weight: 700; color: var(--foreground); }
 .native-android .app-bottom-nav a:active > span:first-child { background-color: color-mix(in oklab, var(--primary) 22%, transparent); transform: scale(0.94); }
 
-/* Drawer: Material ripple and indicator. */
+/* Drawer: Material ripple, indicator, and a bigger, more drawer-like panel. */
 .native-android .drawer-link:active { background-color: var(--android-ripple); }
+/* A real navigation drawer: nearly full-width, taller rows, roomier header. */
+.native-android .drawer-panel {
+  width: min(92vw, 24rem);
+  max-width: min(92vw, 24rem);
+  box-shadow: 12px 0 32px -8px oklch(0 0 0 / 0.32);
+}
+.native-android .drawer-panel[data-state="open"] { animation-duration: 320ms; animation-timing-function: var(--android-ease-out); }
+.native-android .drawer-panel[data-state="closed"] { animation-duration: 200ms; animation-timing-function: var(--android-ease); }
+.native-android .drawer-header {
+  gap: 1rem;
+  padding: calc(1.35rem + var(--safe-top, 0px)) 1.1rem 1.15rem 1.35rem;
+}
+.native-android .drawer-header > span:first-child { height: 3rem; width: 3rem; border-radius: 0.9rem; }
+.native-android .drawer-header img { height: 1.75rem; width: 1.75rem; }
+.native-android .drawer-header h2 { font-size: 1.75rem; }
+.native-android .drawer-header p { font-size: 0.8rem; }
+.native-android .drawer-close { height: 3rem; width: 3rem; }
+.native-android .drawer-nav { padding: 0.25rem 0.9rem 0.9rem; }
+.native-android .drawer-section-title {
+  padding: 0.5rem 0.95rem 0.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+}
+.native-android .drawer-link {
+  min-height: 3.4rem;
+  gap: 1rem;
+  padding: 0.5rem 1rem 0.5rem 0.55rem;
+  font-size: 1rem;
+}
+.native-android .drawer-icon { height: 2.5rem; width: 2.5rem; border-radius: 0.85rem; }
+.native-android .drawer-lang { min-height: 3.4rem; padding: 0.45rem 1rem 0.45rem 0.55rem; }
+.native-android .drawer-lang select { font-size: 1rem; }
+.native-android .drawer-trigger { height: 3rem; width: 3rem; }
 
 /* Pop-ups: Material scrim, elevation, corners and motion. */
 .native-android .popup-overlay { background-color: oklch(0 0 0 / 0.38); -webkit-backdrop-filter: none; backdrop-filter: none; }
