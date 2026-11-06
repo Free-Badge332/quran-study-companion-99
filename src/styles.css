@@ -535,6 +535,88 @@ html.native body { padding-inline: 0; }
 @keyframes qibla-pulse { 50% { box-shadow: 0 0 0 9px color-mix(in oklab, var(--primary) 15%, transparent), 0 18px 48px -18px color-mix(in oklab, var(--primary) 70%, transparent); } }
 @media (prefers-reduced-motion: reduce) { .qibla-rotor { transition: none; } .qibla-dial[data-aligned="true"] .qibla-halo { animation: none; } }
 
+/*
+ * Android-native polish. Every rule is scoped to html.native-android (set by mobile/native.ts),
+ * so the web build renders exactly as before. Presentation only: no layout or size changes.
+ */
+.native-android {
+  --android-ease: cubic-bezier(0.2, 0, 0, 1);
+  --android-ease-out: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --android-elev-1: 0 1px 2px oklch(0 0 0 / 0.08), 0 1px 3px 1px oklch(0 0 0 / 0.05);
+  --android-elev-3: 0 4px 8px 3px oklch(0 0 0 / 0.1), 0 1px 3px oklch(0 0 0 / 0.14);
+  --android-ripple: color-mix(in oklab, var(--primary) 12%, transparent);
+  -webkit-tap-highlight-color: transparent;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+.native-android body { -webkit-user-select: none; user-select: none; }
+.native-android :is(input, textarea, [contenteditable="true"], p, blockquote, [lang="ar"], .select-text) { -webkit-user-select: text; user-select: text; }
+
+/* Material touch feedback: soft state layer + subtle press, no blue WebView flash. */
+.native-android :is(button, a, [role="button"], [role="tab"], [role="menuitem"], [role="option"], summary) {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition-property: background-color, color, box-shadow, transform, opacity, border-color;
+  transition-duration: 160ms;
+  transition-timing-function: var(--android-ease);
+}
+.native-android :is(button, [role="button"], [role="menuitem"], [role="option"], [role="tab"]):not(:disabled):not(.counter-button):active {
+  background-image: linear-gradient(var(--android-ripple), var(--android-ripple));
+}
+.native-android :is(button, [role="button"]):not(:disabled):not(.counter-button):active { transform: scale(0.97); }
+.native-android :focus:not(:focus-visible) { outline: none; }
+
+/* Cards: Material level-1 elevation with consistent corners. */
+.native-android :is(.surface-card, .surface-card-interactive) { box-shadow: var(--android-elev-1); }
+.native-android .surface-card-interactive:active { transform: scale(0.985); box-shadow: none; }
+
+/* Top bar: flat tonal surface that blends with the status bar. */
+.native-android .app-header { box-shadow: none; transition: box-shadow 200ms var(--android-ease); }
+
+/* Bottom navigation: Material 3 bar with a pill indicator and gesture-bar spacing. */
+.native-android .app-bottom-nav {
+  border-top-color: transparent;
+  background-color: color-mix(in oklab, var(--primary) 5%, var(--card));
+  box-shadow: 0 -1px 0 color-mix(in oklab, var(--border) 70%, transparent), 0 -2px 8px oklch(0 0 0 / 0.04);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.native-android .app-bottom-nav a { letter-spacing: 0.01em; }
+.native-android .app-bottom-nav a > span:first-child { height: 2rem; width: 4rem; transition: background-color 200ms var(--android-ease), transform 200ms var(--android-ease); }
+.native-android .app-bottom-nav a[aria-current="page"] > span:first-child { background-color: color-mix(in oklab, var(--primary) 16%, transparent); }
+.native-android .app-bottom-nav a[aria-current="page"] > span:last-child { font-weight: 700; color: var(--foreground); }
+.native-android .app-bottom-nav a:active > span:first-child { background-color: color-mix(in oklab, var(--primary) 22%, transparent); transform: scale(0.94); }
+
+/* Drawer: Material ripple and indicator. */
+.native-android .drawer-link:active { background-color: var(--android-ripple); }
+
+/* Pop-ups: Material scrim, elevation, corners and motion. */
+.native-android .popup-overlay { background-color: oklch(0 0 0 / 0.38); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.native-android :is([role="dialog"], [role="alertdialog"]).popup-centered {
+  border-radius: 1.75rem;
+  border-color: transparent;
+  box-shadow: var(--android-elev-3);
+  background-color: color-mix(in oklab, var(--primary) 3%, var(--background));
+}
+.native-android .popup-drawer { border-radius: 1.75rem 1.75rem 0 0; border-color: transparent; box-shadow: var(--android-elev-3); }
+.native-android :is([role="menu"], [role="listbox"]) {
+  border-radius: 0.75rem;
+  border-color: transparent;
+  box-shadow: var(--android-elev-3);
+  padding-block: 0.5rem;
+}
+.native-android :is([role="menu"], [role="listbox"]) :is([role="menuitem"], [role="option"], [role="menuitemradio"], [role="menuitemcheckbox"]) { min-height: 3rem; border-radius: 0.5rem; }
+.native-android :is([role="dialog"], [role="alertdialog"], [role="menu"], [role="listbox"])[data-state="open"] { animation-duration: 250ms; animation-timing-function: var(--android-ease-out); }
+.native-android :is([role="dialog"], [role="alertdialog"], [role="menu"], [role="listbox"])[data-state="closed"] { animation-duration: 150ms; animation-timing-function: var(--android-ease); }
+
+/* Toasts sit above the bottom bar like Material snackbars. */
+.native-android [data-sonner-toast] { border-radius: 0.75rem; box-shadow: var(--android-elev-3); }
+
+@media (prefers-reduced-motion: reduce) {
+  .native-android :is(button, a, [role="button"]):active { transform: none !important; }
+}
+
 /* oklch-fallbacks:start */
 @supports not (color: oklch(0 0 0)) {
   :root {
